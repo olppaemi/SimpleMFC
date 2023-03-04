@@ -23,6 +23,8 @@ public:
     afx_msg void OnMove(int x, int y);
     afx_msg void OnMoving(UINT fwSide, LPRECT pRect);
     afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 };
 
 struct CSimpleApp : public CWinApp
@@ -43,6 +45,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_MOVE()
     ON_WM_MOVING()
     ON_WM_KEYDOWN()
+    ON_WM_LBUTTONDOWN()
+    ON_WM_RBUTTONUP()
 END_MESSAGE_MAP()
 
 CMainFrame::CMainFrame()
@@ -207,4 +211,23 @@ void CMainFrame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
     }
 
     CFrameWnd::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
+{
+    // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+    CString MsgCoord;
+    MsgCoord.Format(CString("Left Button at P(%d, %d)"), point.x, point.y);
+    MessageBox(MsgCoord);
+
+    CFrameWnd::OnLButtonDown(nFlags, point);
+}
+
+void CMainFrame::OnRButtonUp(UINT nFlags, CPoint point)
+{
+    // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+    CString Msg("This message was sent");
+    SendMessage(WM_SETTEXT, 0, (LPARAM)(LPCWSTR)Msg);
+
+    CFrameWnd::OnRButtonUp(nFlags, point);
 }
