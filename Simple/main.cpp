@@ -9,12 +9,16 @@ public:
     DECLARE_DYNCREATE(CMainFrame)
 
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-    DECLARE_MESSAGE_MAP()
+    afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+    afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
+    afx_msg void OnPaint();
 
 #ifdef _DEBUG
     virtual void AssertValid() const;
     virtual void Dump(CDumpContext& dc) const;
 #endif
+
+    DECLARE_MESSAGE_MAP()
 };
 
 struct CSimpleApp : public CWinApp
@@ -27,6 +31,9 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 // ¸Þ½ÃÁö ¸Ê
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_CREATE()
+    ON_WM_SHOWWINDOW()
+    ON_WM_ACTIVATE()
+    ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 CMainFrame::CMainFrame()
@@ -67,6 +74,39 @@ INT CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     }
     // Otherwise, return -1
     return -1;
+}
+
+void CMainFrame::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+    CFrameWnd::OnShowWindow(bShow, nStatus);
+
+    ShowWindow(SW_MAXIMIZE);
+}
+
+void CMainFrame::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
+{
+    CFrameWnd::OnActivate(nState, pWndOther, bMinimized);
+
+    // TODO: Add your message handler code here
+    //switch (nState)
+    //{
+    //case WA_ACTIVE:
+    //    MessageBox(L"This window has been activated, without the mouse!");
+    //    break;
+    //case WA_INACTIVE:
+    //    MessageBox(L"This window has been deactivated and cannot be changed now!!");
+    //    break;
+    //case WA_CLICKACTIVE:
+    //    MessageBox(L"This window has been activated using the mouse!!!");
+    //    break;
+    //}
+}
+
+void CMainFrame::OnPaint()
+{
+    CFrameWnd::OnPaint();
+
+    MessageBox(L"The window has been painted<==>");
 }
 
 BOOL CSimpleApp::InitInstance()
